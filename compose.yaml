@@ -1,0 +1,42 @@
+services:
+
+  # mysql database
+  mysql:
+    image: mysql:8.4
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: food_prices
+
+    # create the tables and keep the database data
+    volumes:
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - mysql_data:/var/lib/mysql
+
+    # check mysql is ready before loading the data
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+
+  # python pipeline
+  pipeline:
+    build: .
+
+    # wait until mysql is ready
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: food_prices
+
+
+# keep the mysql data when docker stops
+volumes:
+  mysql_data:
