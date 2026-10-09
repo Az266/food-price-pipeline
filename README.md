@@ -17,3 +17,17 @@ To investigate long-term food price behaviour in Somalia, exploring regional dif
 > - Covers 46 markets and 5 staple foods (maize, milk, oil, rice, sorghum) from 2007 and onwards
 > - Runs MySQL in Docker
 
+## Project Structure
+
+- `scripts/` — Python code
+  - `extract.py` — API → cleaned CSV
+  - `database.py` — CSV → MySQL star schema
+  - `db_connection.py` — MySQL connection helper
+- `sql/` — `schema.sql` with table definitions
+- `data/` — raw ZIP files and cleaned CSV output
+- `images/` — screenshots and diagrams
+- `testing/` — test scripts
+- `compose.yaml` — Docker orchestration
+- `Dockerfile` — pipeline container
+- `requirements.txt` — Python dependencies
+- `.env` — database credentials (not pushed)
