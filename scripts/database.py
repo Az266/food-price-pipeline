@@ -156,6 +156,30 @@ def get_ids(cursor):
 
     return market_ids, commodity_ids, date_ids
 
+def savee_price(df, cursor, market_ids, commodity_ids, date_ids):
+
+    insert_price = """
+    INSERT IGNORE INTO fact_price
+    (market_id, commodity_id, date_id, price, currency)
+    VALUES (%s, %s, %s, %s, %s)
+    """
+
+    for i in range(len(df)):
+
+        market_id = market_ids[df.loc[i, "geo_id"]]
+        commodity_id = commodity_ids[df.loc[i, "food"]]
+        date_id = date_ids[df.loc[i, "price_date"]]
+
+        values = (
+            market_id,
+            commodity_id,
+            date_id,
+            df.loc[i, "price"],
+            df.loc[i, "currency"]
+        )
+
+        cursor.execute(insert_price, values)
+
 
     ##########################
 if __name__ == "__main__":
@@ -169,12 +193,15 @@ if __name__ == "__main__":
         save_market(df, cursor)
         save_commodity(df, cursor)
         save_date(df, cursor)
+        
+        db.commit()
 
         market_ids, commodity_ids, date_ids = get_ids(cursor)
+        savee_price(df, cursor, market_ids, commodity_ids, date_ids)
 
         db.commit()
 
         cursor.close()
         db.close()
 
-        print("Database loaded successfully")
+        print("Database has loaded successfully")

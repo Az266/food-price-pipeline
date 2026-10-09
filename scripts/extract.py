@@ -190,7 +190,7 @@ class FoodPrice:
         ]
         ].copy()
 
-        print("columnas successeful", clean_df.shape)
+        print("columns successeful", clean_df.shape)
         print(clean_df.head())
         return clean_df
 
