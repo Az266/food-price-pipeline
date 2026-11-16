@@ -1,8 +1,8 @@
 # Food price pipeline
 
-# Somalia Food Prices ETL: World Bank API - MySQL Star Schema
+# Somalia Food Prices: World Bank API - MySQL Star Schema
 
-A small end-to-end ETL pipeline that retrives Somalia food prices from the World Bank  API, cleans them, and loads a MySQL star schema.
+A small end-to-end  pipeline that retrives Somalia food prices from the World Bank  API, cleans them, and loads a MySQL star schema.
 
 ## Aim
 
